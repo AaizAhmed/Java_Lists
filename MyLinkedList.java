@@ -132,13 +132,32 @@ public class MyLinkedList<T> implements Iterable<T> {
 		{	throw new IndexOutOfBoundsException();	}
 	}
 	
-	/*
-	 
-	 
-	 ==> Add toString() 
-	 
-	 
-	*/	
+	/**
+	 * Returns a String representation of the LinkedList.
+	 * 
+	 * NOTE: If the data stored in the list is a custom Class/Object,
+	 * 		 it needs to have it's own toString method. Otherwise the
+	 * 		 memory address of those Objects will be printed and not
+	 * 		 the actual content. 
+	 */	
+	public String toString() {
+		
+		String str = "[";
+		
+		LinkedListIterator itr = new LinkedListIterator();
+						
+		while(itr.hasNext()) {	
+			
+			str += itr.next().toString();
+			
+			if (itr.hasNext())
+			{	str += ", ";	}
+		}
+		
+		str += "]";
+		
+		return str;
+	}
 	
 	public Iterator<T> iterator() 
 	{	return new LinkedListIterator();	}
@@ -185,6 +204,18 @@ public class MyLinkedList<T> implements Iterable<T> {
 
 	}
 
-
+	public static void main (String [] args) {
+		
+		MyLinkedList<Integer> list = new MyLinkedList<Integer>();
+		
+		list.add(41);
+		list.add(42);
+		list.add(43);
+		list.add(44);
+		list.add(45);
+		
+		System.out.println (list);
+	}
+	
 
 }

@@ -12,11 +12,16 @@ public class MyArrayList<T> implements Iterable<T> {
 	//Constructor of the class.
 	public MyArrayList() {	doClear(); }
 	
-//-------------------------------------------------------------------------
-//	Next ==> 1 Add a deep copy constructor.
-	
-//	==> 2 Finish toString
-//-------------------------------------------------------------------------
+    public MyArrayList(MyArrayList<T> copyList) {
+    	       	
+       	arrayList = (T[]) new Object[copyList.arrayList.length];    	
+    	size = copyList.getSize();
+    	
+    	for (int i = 0; i < size; i++) {    		
+    		
+    		arrayList[i] = copyList.get(i);
+    	}    	
+    }
 	
 	@SuppressWarnings("unchecked")
 	private void increaseSize (int newSize) {
@@ -33,19 +38,7 @@ public class MyArrayList<T> implements Iterable<T> {
 	}
 
 	public int getSize() {  return size;  }
-	
-	/* Trim to Size from Java Docs using Arrays
-	public void trimToSize( )	{ 
-		
-		int oldSize = arrayList.length;
-		
-		if (size < oldSize) {
-			
-			arrayList = Arrays.copyOf(arrayList, size);
-		}		
-	}
-	*/
-	
+
 	/*
 	 * Trim to size reduces the length of array to the current size.
 	 */
@@ -71,7 +64,7 @@ public class MyArrayList<T> implements Iterable<T> {
 
 		if (index < size) {  return arrayList[index];  }
 
-		else throw new NoSuchElementException();
+		else throw new NoSuchElementException("At index " + index);
 	}
 
 	/**
@@ -113,6 +106,9 @@ public class MyArrayList<T> implements Iterable<T> {
 
 		add(size, item);
 	}
+	
+	public int getArrayLength()
+	{	return arrayList.length;	}
 
 	public void add(int index, T item) {
 
@@ -138,12 +134,40 @@ public class MyArrayList<T> implements Iterable<T> {
 		return removedItem;
 	}
 	
-	public Iterator<T> iterator() {  return new MyArrayListIterator();  }
+	/**
+	 * Returns a String representation of the ArrayList.
+	 * 
+	 * NOTE: If the data stored in the list is a custom Class/Object,
+	 * 		 it needs to have it's own toString method. Otherwise the
+	 * 		 memory address of those Objects will be printed and not
+	 * 		 the actual content. 
+	 */	
+	public String toString() {
+		
+		String str = "[";
+		
+		ArrayListIterator itr = new ArrayListIterator();
+						
+		while(itr.hasNext()) {	
+			
+			str += itr.next().toString();
+			
+			if (itr.hasNext())
+			{	str += ", ";	}
+		}
+		
+		str += "]";
+		
+		return str;
+	}
+	
+	public Iterator<T> iterator() 
+	{  return new ArrayListIterator();  }
 
 	/*
 	 * Iterator object for the ArrayList class.
 	 */
-	private class MyArrayListIterator implements Iterator<T> {
+	private class ArrayListIterator implements Iterator<T> {
 
 		private int current = 0;
 		
@@ -162,30 +186,32 @@ public class MyArrayList<T> implements Iterable<T> {
 		public void remove () {  MyArrayList.this.remove(--current);  }
 
 	}
-	
-	public String toString () {
 		
-		String str = "";
-		
-		return str;
-	}
-	
 	public static void main (String [] args) {
 		
 		MyArrayList<String> a = new MyArrayList<>();
 		
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 15; i++) {
 			
 			a.add("Hello " + i);
 		}
 		
-//		System.out.println(a.getSize());
+		System.out.println(a);
+		
+		MyArrayList<String> b = new MyArrayList<String>(a);
 		
 		a.remove(5);
-		a.remove(3);
-		a.remove(7);
+		b.remove(3);
+		a.remove(7);		
+//		a.trimToSize();
 		
-		a.trimToSize();
+		a.set(0, "I have been changed");
+		
+		System.out.println(b);
+		
+		System.out.println(a);
+		System.out.println(b);
+		
 	}
 
 

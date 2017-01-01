@@ -91,6 +91,14 @@ public class StackUsingLinkedList<T> implements Iterable<T> {
 		return topNode;
 	}
 	
+	/**
+	 * Returns a String representation of the Stack.
+	 * 
+	 * NOTE: If the data stored in the list is a custom Class/Object,
+	 * 		 it needs to have it's own toString method. Otherwise the
+	 * 		 memory address of those Objects will be printed and not
+	 * 		 the actual content. 
+	 */
 	public String toString() {
 		
 		String str = "[";
