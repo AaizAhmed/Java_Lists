@@ -14,11 +14,13 @@ public class MyLinkedList<T> implements Iterable<T> {
 	public MyLinkedList() 
 	{	clear();	}
 	
-	/*
-	 *
-	 * ==> Copy Constructor	 
-	 * 
-	 */
+	public MyLinkedList(MyLinkedList<T> otherList) {
+           	    			
+		clear();
+		
+		for (T item: otherList)	
+		{	add(item);	} 	
+    }
 	
 	private class Node<T> {
 
@@ -94,7 +96,7 @@ public class MyLinkedList<T> implements Iterable<T> {
 
 		if (index < size/2) {
 
-			search = beginMarker;
+			search = beginMarker.next;
 			for (int i = 0; i < index; i++) 
 			{	search = search.next;	}
 		}
@@ -214,7 +216,15 @@ public class MyLinkedList<T> implements Iterable<T> {
 		list.add(44);
 		list.add(45);
 		
+		MyLinkedList<Integer> list2 = new MyLinkedList<Integer>(list);
+		
 		System.out.println (list);
+		
+		list.remove(0);
+		list2.add(88);
+		
+		System.out.println (list);
+		System.out.println (list2);	
 	}
 	
 

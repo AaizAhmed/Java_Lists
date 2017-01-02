@@ -3,6 +3,8 @@ package lists;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+@SuppressWarnings("unchecked")
+
 public class MyArrayList<T> implements Iterable<T> {	
 
 	private final int DEFAULT_CAPACITY = 10;
@@ -12,18 +14,14 @@ public class MyArrayList<T> implements Iterable<T> {
 	//Constructor of the class.
 	public MyArrayList() {	doClear(); }
 	
-    public MyArrayList(MyArrayList<T> copyList) {
+	public MyArrayList(MyArrayList<T> otherList) {
     	       	
-       	arrayList = (T[]) new Object[copyList.arrayList.length];    	
-    	size = copyList.getSize();
-    	
-    	for (int i = 0; i < size; i++) {    		
-    		
-    		arrayList[i] = copyList.get(i);
-    	}    	
+       	arrayList = (T[]) new Object[otherList.arrayList.length];    	
+    	    	
+    	for (T item: otherList) 
+    	{	add(item);    	} 	
     }
 	
-	@SuppressWarnings("unchecked")
 	private void increaseSize (int newSize) {
 
 		if (newSize < size) { return; }
@@ -91,7 +89,6 @@ public class MyArrayList<T> implements Iterable<T> {
 	/**
 	 * Clears the contents of the array and changes the size to 0.
 	 */
-	@SuppressWarnings("unchecked")
 	private void doClear() {
 
 		size = 0;
