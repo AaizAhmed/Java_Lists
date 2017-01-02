@@ -3,6 +3,8 @@ package lists;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+@SuppressWarnings("unchecked")
+
 public class StackUsingArray<T> implements Iterable<T> {
 
 	private T [] theArray;
@@ -15,7 +17,6 @@ public class StackUsingArray<T> implements Iterable<T> {
 	public void clear () 
 	{	doClear();		}	
 	
-	@SuppressWarnings("unchecked")
 	private void doClear() {
 		
 		topOfStack = -1;
@@ -39,7 +40,6 @@ public class StackUsingArray<T> implements Iterable<T> {
 		size++;
 	}
 	
-	@SuppressWarnings("unchecked")
 	private void increaseSize(int newSize) {
 		
 		if (newSize < size)
@@ -137,7 +137,7 @@ public class StackUsingArray<T> implements Iterable<T> {
 		private int current = topOfStack;
 		
 		public boolean hasNext() 
-		{	return current > -1;		}
+		{	return current > -1;	}
 
 		public T next() {
 
