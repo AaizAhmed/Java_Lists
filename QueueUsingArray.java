@@ -41,7 +41,7 @@ public class QueueUsingArray<T> implements Iterable<T> {
 	private void enqueueElement(T data) {
 		
 		if (theArray.length == currentSize)
-		{	increaseSize (theArray.length*2 + 1);		}		
+		{	expandCapacity (theArray.length*2 + 1);		}		
 		
 		
 		rearIndex = incrementIndex(rearIndex);
@@ -56,6 +56,8 @@ public class QueueUsingArray<T> implements Iterable<T> {
 		
 		T[] oldArray = (T[]) new Object[newSize]; 
 		
+		long time = System.nanoTime();
+		
 		System.arraycopy(theArray, frontIndex, oldArray, frontIndex, theArray.length-frontIndex);
 		
 		if (frontIndex != 0) {
@@ -66,6 +68,8 @@ public class QueueUsingArray<T> implements Iterable<T> {
 		    // oldArray[theArray.length+i] = theArray[i];
 		}
 		
+		System.out.println("Time taken: " + (System.nanoTime() - time ));
+		
 	    theArray = oldArray;
 		rearIndex = frontIndex + currentSize-1;
 	}
@@ -75,12 +79,15 @@ public class QueueUsingArray<T> implements Iterable<T> {
 		T[] largerArray = (T[]) new Object[newSize];
 		
 		int size = theArray.length;
+		long time = System.nanoTime();
 		
 		for (int i = 0; i < currentSize; i++) {
 			
 			largerArray[i] = theArray[frontIndex];
 			frontIndex = (frontIndex + 1) % size;
 		}
+		
+		System.out.println("Time taken: " + (System.nanoTime() - time ));
 		
 		frontIndex = 0;
 		rearIndex = currentSize-1;
@@ -133,56 +140,59 @@ public class QueueUsingArray<T> implements Iterable<T> {
 		
 		String str = "[";
 		
-		QueueWithArrayIterator itr = new QueueWithArrayIterator();
+		long time = System.nanoTime();
 		
-		while (itr.hasNext()) {
+//		QueueWithArrayIterator itr = new QueueWithArrayIterator();
+//		
+//		while (itr.hasNext()) {
+//			
+//			str += itr.next().toString();
+//			
+//			if(itr.hasNext())
+//			{ str+= ", ";	}					
+//		}
+		
+		int items = 0;			
+		
+		if (frontIndex < rearIndex) {
+		
+		for (int i = frontIndex; i < rearIndex + 1; i++) {				
 			
-			str += itr.next().toString();
+			str += theArray[i];
 			
-			if(itr.hasNext())
-			{ str+= ", ";	}					
+			if (items < currentSize-1)
+			{	str+= ", ";	}
+			items++;
+		}
 		}
 		
-//		int items = 0;			
-//		
-//		if (frontIndex < rearIndex) {
-//		
-//		for (int i = frontIndex; i < rearIndex + 1; i++) {				
-//			
-//			str += theArray[i];
-//			
-//			if (items < currentSize-1)
-//			{	str+= ", ";	}
-//			items++;
-//		}
-//		}
-//		
-//		if (rearIndex < frontIndex) {
-//		
-//		for (int i = rearIndex; i < theArray.length; i++) {
-//			
-//			str += theArray[i];
-//			
-//			if (items < currentSize-1)
-//			{	str+= ", ";	}
-//			items++;
-//		}
-//		
-//		 for (int i = 0; i < rearIndex+1; i++) {
-//			 
-//			 str += theArray[i];
-//				
-//				if (items < currentSize-1)
-//				{	str+= ", ";	}
-//				items++;
-//		 }
-//		}
-//		
-//		if (frontIndex == rearIndex) 
-//		{	str+= theArray[frontIndex];   }
-//
-//				
+		if (rearIndex < frontIndex) {
+		
+		for (int i = rearIndex; i < theArray.length; i++) {
+			
+			str += theArray[i];
+			
+			if (items < currentSize-1)
+			{	str+= ", ";	}
+			items++;
+		}
+		
+		 for (int i = 0; i < rearIndex+1; i++) {
+			 
+			 str += theArray[i];
+				
+				if (items < currentSize-1)
+				{	str+= ", ";	}
+				items++;
+		 }
+		}
+		
+		if (frontIndex == rearIndex) 
+		{	str+= theArray[frontIndex];   }
+				
 		str += "]";
+		
+		System.out.println("Time taken printing: " + (System.nanoTime() - time ));
 		
 		return str;
 	}
@@ -272,7 +282,7 @@ public static void main (String [] args) {
 		queue.enqueue(14);
 		queue.enqueue(15);
 		
-		System.out.println (queue.getSize());
+		//System.out.println (queue.getSize());
 		
 		Iterator<Integer> itr = queue.iterator();
 		
@@ -294,7 +304,9 @@ public static void main (String [] args) {
 //		queue.dequeue();
 //		queue.dequeue();
 		
-		System.out.println (queue);
+		queue.toString();
+		
+		//System.out.println (queue);
 
 	}
 
