@@ -1,4 +1,5 @@
-package lists;
+//package lists;
+package Java_Lists;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
@@ -12,11 +13,11 @@ public class MyLinkedList<T> implements Iterable<T> {
 	private Node<T> endMarker;
 
 	public MyLinkedList() 
-	{	clear();	}
+	{	doClear();	}
 	
 	public MyLinkedList(MyLinkedList<T> otherList) {
            	    			
-		clear();
+		doClear();
 		
 		for (T item: otherList)	
 		{	add(item);	} 	
@@ -34,8 +35,11 @@ public class MyLinkedList<T> implements Iterable<T> {
 			this.next = next;			
 		}		
 	}
+	
+	public void clear()
+	{	doClear();	}
 
-	public void clear() {
+	private void doClear() {
 
 		beginMarker = new Node<T> (null, null, null);
 		endMarker = new Node<T> (null, beginMarker, null);
