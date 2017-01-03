@@ -1,4 +1,5 @@
-package lists;
+//package lists;
+package Java_Lists;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -40,12 +41,14 @@ public class QueueUsingArray<T> implements Iterable<T> {
 	private void enqueueElement(T data) {
 		
 		if (theArray.length == currentSize)
-		{	increaseSize(theArray.length*2 + 1);		}
+		{	increaseSize (theArray.length*2 + 1);		}		
+		
 		
 		rearIndex = incrementIndex(rearIndex);
+		theArray[rearIndex] = data;
 				
 		//System.out.println("Front: " + frontIndex + " Rear: " + rearIndex);
-		theArray[rearIndex] = data;		
+			
 		currentSize++;
 	}
 	
@@ -64,7 +67,24 @@ public class QueueUsingArray<T> implements Iterable<T> {
 		}
 		
 	    theArray = oldArray;
-		rearIndex = frontIndex + currentSize - 1;
+		rearIndex = frontIndex + currentSize-1;
+	}
+	
+	private void expandCapacity (int newSize) {
+		
+		T[] largerArray = (T[]) new Object[newSize];
+		
+		int size = theArray.length;
+		
+		for (int i = 0; i < currentSize; i++) {
+			
+			largerArray[i] = theArray[frontIndex];
+			frontIndex = (frontIndex + 1) % size;
+		}
+		
+		frontIndex = 0;
+		rearIndex = currentSize-1;
+		theArray = largerArray;		
 	}
 
 	private int incrementIndex(int index) {
@@ -82,6 +102,7 @@ public class QueueUsingArray<T> implements Iterable<T> {
 		{	throw new NoSuchElementException();   } 
 		
 		T removedItem = theArray[frontIndex];
+		theArray[frontIndex] = null;
 		
 		frontIndex = incrementIndex(frontIndex);
 		currentSize--;
@@ -121,7 +142,46 @@ public class QueueUsingArray<T> implements Iterable<T> {
 			if(itr.hasNext())
 			{ str+= ", ";	}					
 		}
-				
+		
+//		int items = 0;			
+//		
+//		if (frontIndex < rearIndex) {
+//		
+//		for (int i = frontIndex; i < rearIndex + 1; i++) {				
+//			
+//			str += theArray[i];
+//			
+//			if (items < currentSize-1)
+//			{	str+= ", ";	}
+//			items++;
+//		}
+//		}
+//		
+//		if (rearIndex < frontIndex) {
+//		
+//		for (int i = rearIndex; i < theArray.length; i++) {
+//			
+//			str += theArray[i];
+//			
+//			if (items < currentSize-1)
+//			{	str+= ", ";	}
+//			items++;
+//		}
+//		
+//		 for (int i = 0; i < rearIndex+1; i++) {
+//			 
+//			 str += theArray[i];
+//				
+//				if (items < currentSize-1)
+//				{	str+= ", ";	}
+//				items++;
+//		 }
+//		}
+//		
+//		if (frontIndex == rearIndex) 
+//		{	str+= theArray[frontIndex];   }
+//
+//				
 		str += "]";
 		
 		return str;
@@ -136,36 +196,36 @@ public class QueueUsingArray<T> implements Iterable<T> {
 	private class QueueWithArrayIterator implements Iterator<T> {
 
 		private int current = 0;
-		private int[] indexes = new int[currentSize];
-		
-		public QueueWithArrayIterator() 
-		{	mapQueue();		}
-		
-		int items = 0;
-		public void mapQueue () {
-			
-			if(!isEmpty()) {
-			if (frontIndex < rearIndex) {
+		private int size = theArray.length;
 				
-				for (int i = frontIndex; i < rearIndex + 1; i++) 
-				{	indexes[items++] = i;	}
-			 }
-			
-			if (rearIndex < frontIndex) {
-				
-				for (int i = frontIndex; i < theArray.length; i++) 
-				{	indexes[items++] = i;	}
-					
-				 for (int i = 0; i < rearIndex+1; i++) 
-				 {	indexes[items++] = i;	}
-			}
-			
-			if (frontIndex == rearIndex) 
-			{	indexes[items++] = frontIndex;   }
-		 }
-			
-		}		
-		
+//		public QueueWithArrayIterator() 
+//		{	mapQueue();		}
+//		
+//		int items = 0;
+//		public void mapQueue () {
+//			
+//			if(!isEmpty()) {
+//			if (frontIndex < rearIndex) {
+//				
+//				for (int i = frontIndex; i < rearIndex + 1; i++) 
+//				{	indexes[items++] = i;	}
+//			 }
+//			
+//			if (rearIndex < frontIndex) {
+//				
+//				for (int i = frontIndex; i < theArray.length; i++) 
+//				{	indexes[items++] = i;	}
+//					
+//				 for (int i = 0; i < rearIndex+1; i++) 
+//				 {	indexes[items++] = i;	}
+//			}
+//			
+//			if (frontIndex == rearIndex) 
+//			{	indexes[items++] = frontIndex;   }
+//		 }
+//			
+//		}		
+//		
 		public boolean hasNext() 
 		{	return current < currentSize;	}
 		
@@ -175,7 +235,11 @@ public class QueueUsingArray<T> implements Iterable<T> {
 			if (!hasNext())
 			{	throw new NoSuchElementException( );	}
 			
-			return theArray[indexes[current++]];			
+			int index = (current + frontIndex) % theArray.length;			
+			T item = theArray[index];
+			current++;
+			
+			return item;			
 		}	
 		
 		public void remove() 
@@ -202,8 +266,11 @@ public static void main (String [] args) {
 		queue.enqueue(8);
 		queue.enqueue(9);
 		queue.enqueue(10);
-		queue.enqueue(77);
+		queue.enqueue(11);
 		queue.enqueue(12);
+		queue.enqueue(13);
+		queue.enqueue(14);
+		queue.enqueue(15);
 		
 		System.out.println (queue.getSize());
 		
@@ -211,17 +278,17 @@ public static void main (String [] args) {
 		
 //		while(itr.hasNext()) {
 //			
-//			System.out.println (itr.next());
-//			queue.dequeue();
+//			System.out.println (queue.dequeue());
+//			
 //		}
 		
-		int  h = queue.getSize();
-				
-		for (int i = 0; i  < h; i++) {
-			
-			//queue.dequeue();
-		}
-		
+//		int  h = queue.getSize();
+//				
+//		for (int i = 0; i  < h; i++) {
+//			
+//			queue.dequeue();
+//		}
+//		
 //		queue.dequeue();
 //		queue.dequeue();
 //		queue.dequeue();

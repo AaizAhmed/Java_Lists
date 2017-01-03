@@ -1,4 +1,5 @@
-package lists;
+//package lists;
+package Java_Lists;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -77,6 +78,8 @@ public class StackUsingArray<T> implements Iterable<T> {
 		{	throw new NoSuchElementException();   } 
 			
 		T removedItem = theArray[topOfStack];
+		theArray[topOfStack] = null;
+		
 		topOfStack--;
 		size--;
 		
@@ -172,6 +175,7 @@ public class StackUsingArray<T> implements Iterable<T> {
 		}
 		
 		System.out.println (stack);
+		//System.out.println(stack.peek());
 
 	}
 }
