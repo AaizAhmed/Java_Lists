@@ -47,8 +47,7 @@ public class QueueUsingArray<T> implements Iterable<T> {
 	private void enqueueElement(T data) {
 
 		if (theArray.length == currentSize)
-		{	increaseSize (theArray.length*2 + 1);		}		
-
+		{	increaseSize (theArray.length*2 + 1);		}
 
 		rearIndex = incrementIndex(rearIndex);
 		theArray[rearIndex] = data;
@@ -125,11 +124,11 @@ public class QueueUsingArray<T> implements Iterable<T> {
 		int items = 0;		
 		if (rearIndex < frontIndex) {
 
-			for (int i = frontIndex; i < theArray.length-1; i++) {
+			for (int i = frontIndex; i < theArray.length; i++) {
 
 				str += theArray[i];
 
-				if (items < currentSize)
+				if (items < currentSize-1)
 				{	str+= ", ";	}
 				items++;
 			}
@@ -138,7 +137,7 @@ public class QueueUsingArray<T> implements Iterable<T> {
 
 				str += theArray[i];
 
-				if (items < currentSize)
+				if (items < currentSize-1)
 				{	str+= ", ";	}
 				items++;
 			}
@@ -147,15 +146,14 @@ public class QueueUsingArray<T> implements Iterable<T> {
 		}
 		else if (frontIndex < rearIndex) {
 
-			for (int i = 0; i < rearIndex+1; i++) {
+			for (int i = frontIndex; i < rearIndex+1; i++) {
 
 				str += theArray[i];
 
-//				if (items < currentSize)
-//				{	str+= ", ";	}
+				if (items < currentSize-1)
+				{	str+= ", ";	}
 				items++;
 			}
-
 		}
 
 		if (frontIndex == rearIndex) 
@@ -197,19 +195,19 @@ public class QueueUsingArray<T> implements Iterable<T> {
 
 	public static void main (String [] args) {
 
-		QueueUsingArray<Integer> queue = new QueueUsingArray<Integer>(25);
+		QueueUsingArray<Integer> queue = new QueueUsingArray<Integer>(100);
 
-		for (int i = 0; i < 1; i++ ) {
+		for (int i = 0; i < 10; i++ ) {
 			queue.enqueue(i);
 		}	
 
-//		for (int i = 0; i < 7; i++ ) {
-//			queue.dequeue();
-//		}	
-//
-//		for (int i = 0; i < 12; i++ ) {
-//			queue.enqueue(i);
-//		}	
+		for (int i = 0; i < 7; i++ ) {
+			queue.dequeue();
+		}	
+
+		for (int i = 0; i < 45; i++ ) {
+			queue.enqueue(i);
+		}	
 
 		System.out.println(queue);
 	}
