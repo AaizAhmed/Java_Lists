@@ -1,5 +1,5 @@
-package lists;
-//package Java_Lists;
+//package lists;
+package Java_Lists;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -57,20 +57,19 @@ public class QueueUsingArray<T> implements Iterable<T> {
 
 	private void increaseSize(int newSize) {		
 
-		T[] oldArray = (T[]) new Object[newSize];
+		T[] largerArray = (T[]) new Object[newSize];
 
-
-		System.arraycopy(theArray, frontIndex, oldArray, frontIndex, theArray.length-frontIndex);
+		System.arraycopy(theArray, frontIndex, largerArray, frontIndex, theArray.length-frontIndex);
 
 		if (frontIndex != 0) {
 
-			System.arraycopy(theArray, 0, oldArray, theArray.length, frontIndex);  
+			System.arraycopy(theArray, 0, largerArray, theArray.length, frontIndex);  
 
 			//i = 0 ; i < frontIndex
 			//oldArray[theArray.length+i] = theArray[i];
 		}
 
-		theArray = oldArray;
+		theArray = largerArray;
 		rearIndex = frontIndex + currentSize-1;
 	}
 
@@ -108,7 +107,6 @@ public class QueueUsingArray<T> implements Iterable<T> {
 		return theArray[frontIndex];
 	}
 
-
 	/**
 	 * Returns a String representation of the Stack.
 	 * 
@@ -141,8 +139,6 @@ public class QueueUsingArray<T> implements Iterable<T> {
 				{	str+= ", ";	}
 				items++;
 			}
-
-
 		}
 		else if (frontIndex < rearIndex) {
 
@@ -155,7 +151,7 @@ public class QueueUsingArray<T> implements Iterable<T> {
 				items++;
 			}
 		}
-
+		
 		if (frontIndex == rearIndex) 
 		{	str+= theArray[frontIndex];   }
 
@@ -163,8 +159,7 @@ public class QueueUsingArray<T> implements Iterable<T> {
 
 		return str;
 	}
-
-
+	
 	public Iterator<T> iterator() 
 	{	return new QueueWithArrayIterator();	}
 
@@ -174,7 +169,6 @@ public class QueueUsingArray<T> implements Iterable<T> {
 
 		public boolean hasNext() 
 		{	return current < currentSize;	}
-
 
 		public T next() {
 
@@ -195,21 +189,22 @@ public class QueueUsingArray<T> implements Iterable<T> {
 
 	public static void main (String [] args) {
 
-		QueueUsingArray<Integer> queue = new QueueUsingArray<Integer>(100);
+		int size = 12;
+		QueueUsingArray<Integer> queue = new QueueUsingArray<Integer>(size);
 
-		for (int i = 0; i < 10; i++ ) {
+		for (int i = 0; i < size; i++ ) 
+		{
 			queue.enqueue(i);
 		}	
-
-		for (int i = 0; i < 7; i++ ) {
+		for (int i = 0; i < 5; i++ ) 
+		{
 			queue.dequeue();
-		}	
-
-		for (int i = 0; i < 45; i++ ) {
+		}
+		for (int i = 0; i < 7; i++ ) 
+		{
 			queue.enqueue(i);
-		}	
-
-		System.out.println(queue);
+		}
+		
+		System.out.println(queue + "\n" + queue.getSize());
 	}
-
 }
