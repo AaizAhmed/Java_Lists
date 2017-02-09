@@ -1,10 +1,16 @@
-package lists;
+//package lists;
+package Java_Lists;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
 @SuppressWarnings("unchecked")
 
+/**
+ * A generic ArrayList class that expends in size.
+ * 
+ * @author Aaiz N Ahmed
+ * @param <T> Can be used to store any type of data
+ */
 public class MyArrayList<T> implements Iterable<T> {	
 
 	private final int DEFAULT_CAPACITY = 10;
@@ -14,6 +20,11 @@ public class MyArrayList<T> implements Iterable<T> {
 	//Constructor of the class.
 	public MyArrayList() {	doClear(); }
 	
+	/**
+	 * Copy constructor: It creates an identical copy of the 
+	 * 					 list passed as argument.
+	 * @param otherList: List to be copied. 
+	 */
 	public MyArrayList(MyArrayList<T> otherList) {
     	       	
        	arrayList = (T[]) new Object[otherList.arrayList.length];    	
@@ -22,6 +33,10 @@ public class MyArrayList<T> implements Iterable<T> {
     	{	add(item);    	} 	
     }
 	
+	/**
+	 * Increase the current size of the array and double it.
+	 * @param newSize
+	 */
 	private void increaseSize (int newSize) {
 
 		if (newSize < size) { return; }
@@ -38,7 +53,8 @@ public class MyArrayList<T> implements Iterable<T> {
 	public int getSize() {  return size;  }
 
 	/*
-	 * Trim to size reduces the length of array to the current size.
+	 * Trim to size reduces the length of array to the current size/number
+	 * of element.
 	 */
 	public void trimToSize( )	{ 
 				
@@ -99,6 +115,10 @@ public class MyArrayList<T> implements Iterable<T> {
 		else {  arrayList = (T[]) new Object[arrayList.length];  }		 
 	}
 
+	/**
+	 * Add a new item at the end of the array.
+	 * @param item
+	 */
 	public void add (T item) {
 
 		add(size, item);
@@ -107,6 +127,11 @@ public class MyArrayList<T> implements Iterable<T> {
 	public int getArrayLength()
 	{	return arrayList.length;	}
 
+	/**
+	 * Adding an item at a specified index.
+	 * @param index
+	 * @param item
+	 */
 	public void add(int index, T item) {
 
 		if (arrayList.length == size) {  increaseSize(size*2 + 1);  }
@@ -118,6 +143,12 @@ public class MyArrayList<T> implements Iterable<T> {
 		size++;
 	}
 
+	/**
+	 * Remove an item from a specified index and shift 
+	 * the elements.
+	 * @param index
+	 * @return
+	 */
 	public T remove(int index) {
 
 		if (index < 0 || index > size) {  throw new IndexOutOfBoundsException();  }
@@ -204,12 +235,8 @@ public class MyArrayList<T> implements Iterable<T> {
 		
 		a.set(0, "I have been changed");
 		
-		System.out.println(b);
-		
+		System.out.println(b);		
 		System.out.println(a);
-		System.out.println(b);
-		
+		System.out.println(b);		
 	}
-
-
 }
